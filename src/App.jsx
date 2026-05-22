@@ -26,18 +26,49 @@ function App() {
     setPlayers(newPlayers);
   }
 
+  function handlePlayerChange(index, field, value) {
+    const newPlayers = players.map((player, i) => {
+      if (i === index) {
+        return { ...player, [field]: value };
+      } else {
+        return player;
+      }
+    })
+    setPlayers(newPlayers);
+  }
+
+  function handleRankChange(playerIndex, boardIndex, value) {
+    const newPlayers = players.map((player, i) => {
+      if (i === playerIndex) {
+        const newRanks = player.ranks.map((rank, b) => {
+          if (b === boardIndex) {
+            return value;
+          } else {
+            return rank;
+          }
+        });
+        return { ...player, ranks: newRanks };
+
+      } else {
+        return player;
+      }
+    });
+    setPlayers(newPlayers);
+  }
+
+
+
 
   function handleNumBoardChange(e) {
     const newCount = Number(e.target.value);
     setNumBoards(newCount);
-
-    const NumBoards(newCount);
 
     const newPlayers = players.map((player) => {
       const newRanks = []
       for (let i = 0; i < newCount; ++i) {
         newRanks[i] = player.ranks[i] || 0;
       }
+      return { ...player, ranks: newRanks };
     })
 
     setPlayers(newPlayers);
@@ -52,7 +83,7 @@ function App() {
         <input
           type="number"
           value={numBoards}
-          onChange={(e) => setNumBoards(Number(e.target.value))}
+          onChange={handleNumBoardChange}
         />
       </label>
       <p>Boards: {numBoards}</p>
@@ -67,6 +98,33 @@ function App() {
         />
       </label>
       <p>Pot: {preExistingPot}</p>
+
+      {players.map((player, index) => (
+        <div key={index}>
+          <input
+            type="text"
+            value={player.name}
+            onChange={(e) => handlePlayerChange(index, "name", e.target.value)}
+          />
+          <input
+            type="number"
+            value={player.chips}
+            onChange={(e) => handlePlayerChange(index, "chips", Number(e.target.value))}
+          />
+
+          {player.ranks.map((rank, boardIndex) => (
+            <input
+              key={boardIndex}
+              type="number"
+              value={rank}
+              onChange={(e) => handleRankChange(index, boardIndex, Number(e.target.value))}
+            />
+          ))}
+
+          <button onClick={() => handleRemovePlayer(index)}>-</button>
+        </div>
+      ))}
+      <button onClick={handleAddPlayer}>+ Add Player</button>
     </>
   )
 }
