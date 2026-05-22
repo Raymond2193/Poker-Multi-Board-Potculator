@@ -1,5 +1,5 @@
 import { expect, test, describe } from 'vitest';
-import { buildSidePots, distributePotOnBoard, calculate } from './calculator.js';
+import calculate from "./calculator.js";
 
 describe('buildSidePots', () => {
 

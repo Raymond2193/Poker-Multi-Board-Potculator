@@ -1,5 +1,5 @@
 
-export function buildSidePots(players, preExistingPot) {
+function buildSidePots(players, preExistingPot) {
 
     const pots = [];
     let uncalled = null;
@@ -46,7 +46,9 @@ export function buildSidePots(players, preExistingPot) {
 }
 
 
-export function distributePotOnBoard(pot, rankings) {
+
+
+function distributePotOnBoard(pot, rankings) {
 
     const winners = [];
     const result = {};
@@ -78,7 +80,7 @@ export function distributePotOnBoard(pot, rankings) {
 }
 
 
-export function calculate(players, numBoard, preExistingPot) {
+export default function calculate(players, numBoard, preExistingPot) {
 
     const potProfile = buildSidePots(players, preExistingPot);
 
